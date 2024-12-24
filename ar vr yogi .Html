@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR and VR Animal Viewer</title>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/ar.js/aframe/build/aframe-ar.min.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+    <!-- AR Scene -->
+    <a-scene embedded arjs="sourceType: webcam;">
+        <!-- 3D Model of Animal (GLTF/GLB format) -->
+        <a-entity
+            position="0 0 0"
+            gltf-model="https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Tiger/glTF/Tiger.gltf"
+            scale="0.5 0.5 0.5">
+        </a-entity>
+
+        <!-- Marker -->
+        <a-marker-camera preset="hiro"></a-marker-camera>
+
+        <!-- Switch to VR Button -->
+        <a-entity
+            position="0 0 -1"
+            geometry="primitive: plane; height: 0.2; width: 0.5;"
+            material="color: blue; opacity: 0.8;"
+            text="value: Switch to VR; align: center;"
+            onclick="switchToVR()">
+        </a-entity>
+    </a-scene>
+
+    <!-- VR Scene -->
+    <a-scene id="vrScene" style="display: none;">
+        <a-sky color="#ECECEC"></a-sky>
+
+        <!-- 3D Model of Animal -->
+        <a-entity
+            position="0 1 -3"
+            gltf-model="https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Tiger/glTF/Tiger.gltf"
+            scale="0.5 0.5 0.5">
+        </a-entity>
+
+        <!-- Switch to AR Button -->
+        <a-entity
+            position="0 0 -1"
+            geometry="primitive: plane; height: 0.2; width: 0.5;"
+            material="color: green; opacity: 0.8;"
+            text="value: Switch to AR; align: center;"
+            onclick="switchToAR()">
+        </a-entity>
+    </a-scene>
+
+    <script>
+        // Function to switch to VR mode
+        function switchToVR() {
+            document.querySelector('a-scene[arjs]').style.display = 'none';
+            document.getElementById('vrScene').style.display = 'block';
+        }
+
+        // Function to switch to AR mode
+        function switchToAR() {
+            document.getElementById('vrScene').style.display = 'none';
+            document.querySelector('a-scene[arjs]').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
